@@ -1,0 +1,41 @@
+{% extends "doccomment/base.html" %}
+
+{% block title %}Draft List {{ block.super }}{% endblock %}
+
+{% block content %}
+
+<h1>Preview of: {{ draft.title }}</h1>
+<ul>
+    <li><strong>Author:</strong> {{ draft.author|default:draft.author.username }}</li>
+    <li><strong>Created:</strong> {{ draft.date_created|date }}</li>
+    <li><strong>Last Modified:</strong> {{ draft.date_updated|timesince }} ago</li>
+    {% if draft.published %}
+    <li>
+        <strong>Last published:</strong> 
+        Version {{ draft.version_string }} 
+        on {{ draft.date_published|date }}
+        (There were {{ draft.has_modification|yesno:",no" }} changes since then)
+    </li>
+    {% endif %}
+
+    {% if draft.has_modification %}
+    {% ifequal user draft.author %}
+    <li>
+        <strong>Publish as:</strong>
+        {% for ver in draft.next_version_choices %}
+            <a href=''>v{{ ver }}</a>{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+    </li>
+    {% endifequal %}
+    {% endif %}
+</ul>
+
+<hr />
+{{ draft.html|safe }}
+<hr />
+
+{# TODO: also allow if user_is_editor #}
+{% ifequal user draft.author %}
+[ <a href='{% url doccomment_draft_edit draft.id %}'>Edit this document</a> ]
+{% endifequal %}
+{% endblock %}

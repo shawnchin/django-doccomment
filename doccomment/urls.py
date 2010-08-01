@@ -16,4 +16,9 @@ urlpatterns = patterns('doccomment.views',
         view = 'draft_edit',
         name = 'doccomment_draft_edit',
     ),
+    
+    url(r'^draft/(?P<id>\d+)/preview$',
+        view = 'draft_preview',
+        name = 'doccomment_draft_preview',
+    ),
 )

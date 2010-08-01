@@ -20,6 +20,12 @@ def draft_list(request, template_name='doccomment/draft_list.html'):
         'draft_list' : Document.objects.all(),
     }, context_instance = RequestContext(request))
 
+@user_passes_test(Permission.user_can_view_draft)
+def draft_preview(request, id, template_name='doccomment/draft_preview.html'):
+    return render_to_response(template_name, {
+        'draft' : get_object_or_404(Document, pk=id),
+    }, context_instance = RequestContext(request))
+    
 @user_passes_test(Permission.user_can_create_draft)
 def draft_new(request, template_name='doccomment/doc_editor.html'):
     if request.method == 'POST':
@@ -63,3 +69,5 @@ def draft_edit(request, id, template_name='doccomment/doc_editor.html'):
         'form' : form,
         'document' : doc,
     }, context_instance=RequestContext(request))
+
+

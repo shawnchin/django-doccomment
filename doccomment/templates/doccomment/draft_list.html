@@ -7,7 +7,11 @@
 
 <ul>
 {% for draft in draft_list %}
-    <li><a href='{% url doccomment_draft_edit draft.id %}'>{{ draft.title }}</a> by {{ draft.author|default:draft.author.username }}</li>
+    <li>
+        <a href='{% url doccomment_draft_edit draft.id %}'>{{ draft.title }}</a> 
+        by {{ draft.author|default:draft.author.username }} 
+        [ <a href='{% url doccomment_draft_preview draft.id %}'>Preview and publish</a> ]
+    </li>
 {% endfor %}
 </ul>
 

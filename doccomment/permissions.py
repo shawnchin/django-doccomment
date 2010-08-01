@@ -1,3 +1,4 @@
+# TODO: Template tags to access these permissions in template
 
 class Permission(object):
     """

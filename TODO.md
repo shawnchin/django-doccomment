@@ -6,6 +6,7 @@ TODO
     * Store Markdown and HTML in Version model
     * Associate Comment to Version (with elem_id) instead of PageElement
     * Use PageElement only for context reference in comment page
+* Test. Test. Test.
 * Generated HTML should use styles from single CSS file (isolate from parent site)
 * Use MarkItUp and ShowDown in document editor to allow real-time client-side 
   preview of document

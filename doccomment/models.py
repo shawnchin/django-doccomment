@@ -3,31 +3,59 @@ from django.contrib.auth.models import User
 from django.contrib.comments.models import Comment
 from django.utils.translation import ugettext_lazy as _
 
+
+
 class Document(models.Model):
     """
     A simple document model
     """
+    NOT_PUBLISHED = _("(not published)")
+    
     title  = models.CharField(_("title"), max_length=200)
     author = models.ForeignKey(User)
     body   = models.TextField(_("document text"))
     published = models.BooleanField(_("published"), default=False)
     date_created = models.DateTimeField(_("date_created"), auto_now_add=True)
-    data_updated = models.DateTimeField(_("date_updated"), auto_now=True)
+    date_updated = models.DateTimeField(_("date_updated"), auto_now=True)
     date_published = models.DateTimeField(_("date_published"), blank=True, null=True)
-    latest_version = models.CharField(_("latest_version"), max_length=15, blank=True)
+    latest_version = models.CharField(_("latest_version"), max_length=15, default=NOT_PUBLISHED)
     has_modification = models.BooleanField(
         _("has modification"),
         default=True, 
         help_text=_("Modified since last publication?")
     )
-    
+   
     class Meta:
         verbose_name = _("document")
         verbose_name_plural = _("documents")
         ordering = ("-date_published",)
+    
+    def _get_html(self):
+        from doccomment import get_parser_module
+        return get_parser_module().parse(self.body)
+    html = property(_get_html)
+    
+    def _get_possible_next_versions(self):
+        ver = self.latest_version.split(".")
+        if self.latest_version == Document.NOT_PUBLISHED or len(ver) != 3:
+            major, minor, revision = (0,0,0)
+        else:
+            major = int(ver[0])
+            minor = int(ver[1])
+            revision = int(ver[2])
         
+        opt = [
+            [major,   minor,   revision+1],
+            [major,   minor+1, 0         ],
+            [major+1, 0,       0         ],
+        ]
+        out = ["%d.%d.%d"%(x,y,z) for x,y,z in opt]
+        return out
+    next_version_choices = property(_get_possible_next_versions)
+
     def __unicode__(self):
         return self.title
+        
 
 
 class DocumentVersion(models.Model):
