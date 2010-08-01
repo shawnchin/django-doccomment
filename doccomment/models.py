@@ -11,7 +11,6 @@ class Document(models.Model):
     author = models.ForeignKey(User)
     body   = models.TextField(_("document text"))
     published = models.BooleanField(_("published"), default=False)
-    archived  = models.BooleanField(_("archived"), default=False)
     date_created = models.DateTimeField(_("date_created"), auto_now_add=True)
     data_updated = models.DateTimeField(_("date_updated"), auto_now=True)
     date_published = models.DateTimeField(_("date_published"), blank=True, null=True)

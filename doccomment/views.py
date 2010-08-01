@@ -14,13 +14,13 @@ from forms import DocumentForm
 from doccomment import get_permission_class
 Permission = get_permission_class()
 
-@user_passes_test(Permission.user_is_author)
+@user_passes_test(Permission.user_can_view_draft)
 def draft_list(request, template_name='doccomment/draft_list.html'):
     return render_to_response(template_name, {
         'draft_list' : Document.objects.all(),
     }, context_instance = RequestContext(request))
 
-@user_passes_test(Permission.user_is_author)
+@user_passes_test(Permission.user_can_create_draft)
 def draft_new(request, template_name='doccomment/doc_editor.html'):
     if request.method == 'POST':
         form = DocumentForm(request.POST)
@@ -40,10 +40,9 @@ def draft_new(request, template_name='doccomment/doc_editor.html'):
         'form' : form,
     }, context_instance=RequestContext(request))
     
-@user_passes_test(Permission.user_is_author)
+@user_passes_test(Permission.user_can_create_draft)
 def draft_edit(request, id, template_name='doccomment/doc_editor.html'):
     doc = get_object_or_404(Document, pk=id)
-    if doc.archived: raise Http404
     if doc.author != request.user and not Permission.user_is_editor(request.user):
         return HttpResponseForbidden('You can only edit documents you created')
     if request.method == 'POST':
