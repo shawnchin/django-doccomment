@@ -1,0 +1,35 @@
+{% extends 'doccomment/base.html' %}
+
+{% block title %}Doc Editor {{ block.super }}{% endblock %}
+
+{% block content %}
+
+<h1>
+{% if not document %}
+    New Document
+{% else %}
+    Edit Document
+{% endif %}
+</h1>
+
+
+<form id='editor-form' action='' method='post'>
+
+    <div class='editor-form-row'>
+        {{ form.title.errors }}
+        <label for='id_title'>Title:</label>
+        {{ form.title }}
+    </div>
+
+    <div class='editor-form-row'>
+        {{ form.body.errors }}
+        {{ form.body }}
+    </div>
+
+    <div class='submit-row'>
+        <input type="submit" name='save' value="Save Changes" />
+        <input type="submit" name='save-and-continue' value="Save and Continue Editing" />
+    </div>
+</form>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "doccomment/base.html" %}
+
+{% block title %}Draft List {{ block.super }}{% endblock %}
+
+{% block content %}
+[<a href='{% url doccomment_draft_new %}'>Create new document</a>]
+
+<ul>
+{% for draft in draft_list %}
+    <li><a href='{% url doccomment_draft_edit draft.id %}'>{{ draft.title }}</a></li>
+{% endfor %}
+</ul>
+
+{% endblock %}
