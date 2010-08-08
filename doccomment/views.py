@@ -86,14 +86,14 @@ def draft_publish(request, id, ver):
     pass
     
     # parse user input to HTML
-    html, elements = Parser.input_to_html(doc.body)
+    elements = Parser.parse_elements(doc.body)
     
     # create a snapshot of document as DocumentVersion
     dv = DocumentVersion(
         document = doc,
         title    = doc.title,
         body     = doc.body,
-        rendered = html,
+        rendered = "\n".join(elements),
         elem_count = len(elements),
         version_string = ver,
     )

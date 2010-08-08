@@ -4,6 +4,7 @@ from django.conf import settings
 
 DEFAULT_EXTENSIONS = []
 DEFAULT_SAFEMODE   = True
+DEFAULT_DIV_ID_PREFIX = "DE-"
 
 def parse(text):
     """
@@ -15,22 +16,35 @@ def parse(text):
     md_safemode   = getattr(settings, "DOCCOMMENT_MARKDOWN_SAFEMODE", DEFAULT_SAFEMODE)
     return markdown(text, md_extensions, safe_mode=md_safemode)
 
-def input_to_html(text):
+def parse_elements(text):
     """
-    Parses input text and returns HTML as tuple of (html, block_list),
-    where "html" is the complete HTML document, and block_list the same
-    HTML document split up into a list of top-level blocks.
+    Parses input text and returns a list of HTML blocks which makes
+    up the whole document,
     
-    Use parser.parse() to convert text to HTML. The default routine
+    Uses parser.parse() to convert text to HTML. The default routine
     users Markdown.
     
-    BeautifulSoup is used to sanitise generated HTML
+    BeautifulSoup is used to sanitise generated HTML, and split it up
+    into top-level blocks.
+    
+    Each element is wrapped with a DIV with and ID so it can be easily
+    targetted by JS/CSS. The DIVs have IDs in the form "DE-<N>" where 
+    <N> is the sequence number starting from 0. The prefix ("DE-")
+    can be modified using settings.DOCCOMMENT_DIV_ID_PREFIX
     """
     
+    # get id prefix
+    id_prefix = getattr(settings, "DOCCOMMENT_DIV_ID_PREFIX", DEFAULT_DIV_ID_PREFIX)
+   
+    # sanitise and split using BeautifulSoup
     soup = BeautifulSoup(parse(text))
-    html = unicode(soup.prettify())
-    block_list = [e.__unicode__() for e in soup.contents if type(e) == Tag]
+    elements = [e for e in soup.contents if type(e) == Tag]
     
-    return (html, block_list)
+    # wrap blocks in <div>
+    format = u"<div id='%s%d'>\n%s\n</div>"
+    for seq,txt in enumerate(elements):
+        elements[seq] = format % (id_prefix, seq, txt)
+    
+    return elements
 
     
