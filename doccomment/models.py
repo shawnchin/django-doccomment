@@ -2,8 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.comments.models import Comment
 from django.utils.translation import ugettext_lazy as _
+from django.template.defaultfilters import slugify
 
-
+from managers import DocumentManager
 
 class Document(models.Model):
     """
@@ -12,6 +13,7 @@ class Document(models.Model):
     NOT_PUBLISHED = _("(not published)")
     
     title  = models.CharField(_("title"), max_length=200)
+    slug   = models.SlugField(editable=False, max_length=40)
     author = models.ForeignKey(User)
     body   = models.TextField(_("document text"))
     published = models.BooleanField(_("published"), default=False)
@@ -25,6 +27,8 @@ class Document(models.Model):
         help_text=_("Modified since last publication?")
     )
    
+    objects = DocumentManager()
+    
     class Meta:
         verbose_name = _("document")
         verbose_name_plural = _("documents")
@@ -52,6 +56,10 @@ class Document(models.Model):
         out = ["%d.%d.%d"%(x,y,z) for x,y,z in opt]
         return out
     next_version_choices = property(_get_possible_next_versions)
+    
+    def save(self):
+        self.slug = slugify(self.title)[:40]
+        super(Document, self).save()
 
     def __unicode__(self):
         return self.title
@@ -64,10 +72,11 @@ class DocumentVersion(models.Model):
     """
     document = models.ForeignKey(Document)
     title    = models.CharField(_("title"), max_length=200) # Snapshot of the title
+    author   = models.ForeignKey(User)
     body     = models.TextField(_("document text")) # Snapshot of document
     rendered = models.TextField(_("rendered document"))
     elem_count = models.IntegerField(_("number of elements in page"))
-    version_string = models.CharField(_("version string"), max_length=15)
+    version_string = models.CharField(_("version string"), db_index=True, max_length=15)
     date_published = models.DateTimeField(_("date_published"), auto_now_add=True)
     
     class Meta:

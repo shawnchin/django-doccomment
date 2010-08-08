@@ -20,6 +20,28 @@ Permission = get_permission_class()
 from doccomment import get_parser_module
 Parser = get_parser_module()
 
+@user_passes_test(Permission.user_can_view_published)
+def pub_list(request, template_name='doccomment/pub_list.html'):
+    return render_to_response(template_name, {
+        'doc_list' : Document.objects.published(),
+    }, context_instance = RequestContext(request))
+
+# shortcut to pub_view with latest version. permission check on pub_view
+def pub_view_latest(request, id, slug):
+    doc = get_object_or_404(Document.objects.published())
+    return pub_view(request, id, slug, doc.latest_version)
+    
+@user_passes_test(Permission.user_can_view_published)
+def pub_view(request, id, slug, ver, template_name='doccomment/pub_view.html'):
+    # slug is ignored
+    dv = get_object_or_404(DocumentVersion,
+        document = id,
+        version_string = ver,
+    )
+    return render_to_response(template_name, {
+        'version' : dv,
+    }, context_instance = RequestContext(request))
+    
 @user_passes_test(Permission.user_can_view_draft)
 def draft_list(request, template_name='doccomment/draft_list.html'):
     return render_to_response(template_name, {
@@ -93,6 +115,7 @@ def draft_publish(request, id, ver):
         document = doc,
         title    = doc.title,
         body     = doc.body,
+        author   = doc.author,
         rendered = "\n".join(elements),
         elem_count = len(elements),
         version_string = ver,

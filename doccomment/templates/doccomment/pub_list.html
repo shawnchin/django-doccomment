@@ -1,0 +1,16 @@
+{% extends "doccomment/base.html" %}
+
+{% block title %}Published Documents {{ block.super }}{% endblock %}
+
+{% block content %}
+<h1>Published Documents</h1>
+<ul>
+{% for doc in doc_list %}
+    <li>
+        <a href='{% url doccumment_pub_view_latest doc.id doc.slug %}'>{{ doc.title }}</a> 
+        (by {{ doc.author|default:doc.author.username }})
+    </li>
+{% endfor %}
+</ul>
+
+{% endblock %}

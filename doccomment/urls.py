@@ -2,6 +2,22 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('doccomment.views',
 
+
+    url(r'^$',
+        view = 'pub_list',
+        name = 'doccumment_pub_list',
+    ),
+    
+    url(r'^(?P<id>\d+)/(?P<slug>[\w-]+)/$',
+        view = 'pub_view_latest',
+        name = 'doccumment_pub_view_latest',
+    ),
+    
+    url(r'^(?P<id>\d+)/(?P<slug>[\w-]+)/(?P<ver>\d+\.\d+\.\d+)/$',
+        view = 'pub_view',
+        name = 'doccumment_pub_view',
+    ),
+    
     url(r'^draft/list$',
         view = 'draft_list',
         name = 'doccomment_draft_list',

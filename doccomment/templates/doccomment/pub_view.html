@@ -1,0 +1,17 @@
+{% extends "doccomment/base.html" %}
+
+{% block title %}{{ version.title }} {{ block.super }}{% endblock %}
+
+{% block content %}
+
+<h1>{{ version.title }}</h1>
+<ul>
+    <li><strong>Author:</strong> {{ version.author|default:version.author.username }}</li>
+    <li><strong>Published:</strong> {{ version.date_published|date }}</li>
+    <li><strong>Version:</strong> {{ version.version_string }}</li>
+
+<hr />
+{{ version.rendered|safe }}
+<hr />
+
+{% endblock %}1

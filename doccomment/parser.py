@@ -41,7 +41,7 @@ def parse_elements(text):
     elements = [e for e in soup.contents if type(e) == Tag]
     
     # wrap blocks in <div>
-    format = u"<div id='%s%d'>\n%s\n</div>"
+    format = u"<div class='doccomment-block' id='%s%d'>\n%s\n</div>"
     for seq,txt in enumerate(elements):
         elements[seq] = format % (id_prefix, seq, txt)
     
