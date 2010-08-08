@@ -15,9 +15,9 @@ class Permission(object):
         return True
         
     @staticmethod
-    def user_can_create_draft(user):
+    def user_is_author(user):
         """
-        Determine if user can create drafts.
+        Determine if user can create and publish drafts.
         
         This should at the very least restrict anonymous users else we can't 
         assign the draft to an author.
