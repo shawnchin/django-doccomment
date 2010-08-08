@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="{{ MEDIA_URL }}css/style.css" media="all" rel="stylesheet" type="text/css" />
+        <title>{% block title %}{% endblock %}(DocComment example)</title>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+        <script type="text/javascript" src="{{ MEDIA_URL }}js/doccomment.js"></script>
+        {% block head %}{% endblock %}
+    </head>
+
+    <body>
+    <div id='container'>
+        <div id='header' class='container_16 clearfix'>
+            <div id='branding'>
+                <a href='/' id='site-name'>
+                DocComment Demo
+                </a>
+            </div>
+            <div id='user-links'>
+                Welcome 
+                {% if user.is_authenticated %}
+                    <strong>{{ user.username }}</strong>.
+                    [ <a href='/accounts/logout'>Log Out</a> ]
+                {% else %}
+                    <strong>stranger</strong>
+                    [ <a href='/accounts/login'>Log In</a> ]
+                {% endif %}
+            </div>
+        </div>
+
+        <div id='content' class='container_16 clearfix'>
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+    <div id='footer'>
+        This is a example django project that uses <a href='http://github.com/shawnchin/django-doccomment'>DocComment</a>. 
+    </div>
+    </body>
+</html>

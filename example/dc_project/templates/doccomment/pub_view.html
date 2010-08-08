@@ -1,0 +1,64 @@
+{% extends "doccomment/base.html" %}
+
+{% block title %}{{ version.title }} {{ block.super }}{% endblock %}
+{% block head %}
+<script type='text/javascript'>
+    $(function(){
+        var elem_count = {{ version.elem_count }};
+        
+        for (i = 0; i < elem_count; i++) {
+            /* for each content block */
+            var content_div = $('#DE-'+i);
+
+            /* create a div to display link and count for comments */
+            var width = 30;
+            var top   = content_div.offset().top;
+            var left  = content_div.offset().left - width;
+            var height= content_div.css('height');
+            /* display it relative to associated content */
+            var dt = '<div class="doccomment-cdiv" id="CB-'+i+'">N</div>'
+            var comment_div = $(dt).hide()
+                .css('position', 'absolute')
+                .css('top', top)
+                .css('left', left)
+                .css('width', width)
+                .css('height', height)
+                .css('background-color','#ddd')
+                .css('cursor', 'pointer')
+                .appendTo($("#content"));
+            
+            /* store reference to comment div in content */
+            content_div.data('cdiv', comment_div);
+
+            /* display comment div on hover */
+            content_div.hover(function() {
+                $(this).data('cdiv').show();
+            }, function(){
+                $(this).data('cdiv').hide();
+            });
+
+            /* remain visible when hovered over */
+            comment_div.hover(function() {
+                $(this).show();
+            }, function(){
+                $(this).hide();
+            });
+        }
+
+    });
+</script>
+{% endblock %}
+{% block content %}
+
+<h1>{{ version.title }}</h1>
+<ul>
+    <li><strong>Author:</strong> {{ version.author|default:version.author.username }}</li>
+    <li><strong>Published:</strong> {{ version.date_published|date }}</li>
+    <li><strong>Version:</strong> {{ version.version_string }}</li>
+</ul>
+<hr />
+{{ version.rendered|safe }}
+<hr />
+
+
+{% endblock %}1

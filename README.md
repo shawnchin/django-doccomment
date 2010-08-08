@@ -1,11 +1,13 @@
-# Coming Soon...
+# Example usage
 
-We have a working implementation which needs to be cleaned up and packaged
-as a standalone django app. The source tree will be populated once that is
-done.
+An example project that uses doccomment is included in examples/dc_project. 
+To try it out, run:
 
-A rough list of features we intend to implemented is embedded somewhere
-within TODO.md
+    $ cd examples/dc_project
+    $ export PYTHONPATH='../..'
+    $ ./manage.py syncdb
+    $ ./manage.py loaddata ????
+    $ ./manage.py runserver
 
 # Dependencies
 
@@ -13,13 +15,18 @@ By default, we use the markdown filter in django.contrib.markup. This
 requires:
 * python markdown (http://www.freewisdom.org/projects/python-markdown)
 
+We also use the fabulous BeautifulSoup library (included in our distribution)
+
 # Settings
+
+(we need to talk about:)
 
 DOCCOMMENT_PARSER_MODULE
 DOCCOMMENT_PERMISSION_MODULE
-
 DOCCOMMENT_MARKDOWN_EXTENSIONS
 DOCCOMMENT_MARKDOWN_SAFEMODE
+DOCCOMMENT_DIV_ID_PREFIX
+
 
 # Disclaimer
 

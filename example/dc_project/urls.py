@@ -17,6 +17,9 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
     
     (r'^doc/', include('doccomment.urls')),
+    
+    (r'^accounts/login/$', 'django.contrib.auth.views.login'),
+    (r'^accounts/logout/$', 'django.contrib.auth.views.logout'),
 )
 
 # serve static files if running DEBUG mode
