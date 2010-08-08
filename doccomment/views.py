@@ -6,13 +6,19 @@ from django.views.generic import list_detail
 from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
+from django.core.exceptions import SuspiciousOperation
 
 from models import Document
+from models import DocumentVersion
+from models import DocumentElement
 from forms import DocumentForm
 
 # Get class to use for checking user permissions
 from doccomment import get_permission_class
 Permission = get_permission_class()
+# Get class for parsing author input to HTML
+from doccomment import get_parser_module
+Parser = get_parser_module()
 
 @user_passes_test(Permission.user_can_view_draft)
 def draft_list(request, template_name='doccomment/draft_list.html'):
@@ -26,7 +32,7 @@ def draft_preview(request, id, template_name='doccomment/draft_preview.html'):
         'draft' : get_object_or_404(Document, pk=id),
     }, context_instance = RequestContext(request))
     
-@user_passes_test(Permission.user_can_create_draft)
+@user_passes_test(Permission.user_is_author)
 def draft_new(request, template_name='doccomment/doc_editor.html'):
     if request.method == 'POST':
         form = DocumentForm(request.POST)
@@ -46,7 +52,7 @@ def draft_new(request, template_name='doccomment/doc_editor.html'):
         'form' : form,
     }, context_instance=RequestContext(request))
     
-@user_passes_test(Permission.user_can_create_draft)
+@user_passes_test(Permission.user_is_author)
 def draft_edit(request, id, template_name='doccomment/doc_editor.html'):
     doc = get_object_or_404(Document, pk=id)
     if doc.author != request.user and not Permission.user_is_editor(request.user):
@@ -70,4 +76,43 @@ def draft_edit(request, id, template_name='doccomment/doc_editor.html'):
         'document' : doc,
     }, context_instance=RequestContext(request))
 
-
+@user_passes_test(Permission.user_is_author)
+def draft_publish(request, id, ver):
+    doc = get_object_or_404(Document, pk=id)
+    if doc.author != request.user and not Permission.user_is_editor(request.user):
+        return HttpResponseForbidden('You can only publish documents you created')
+    if not ver in doc.next_version_choices:
+        raise SuspiciousOperation
+    pass
+    
+    # parse user input to HTML
+    html, elements = Parser.input_to_html(doc.body)
+    
+    # create a snapshot of document as DocumentVersion
+    dv = DocumentVersion(
+        document = doc,
+        title    = doc.title,
+        body     = doc.body,
+        rendered = html,
+        elem_count = len(elements),
+        version_string = ver,
+    )
+    dv.save()
+    
+    # create records for each document elements
+    for seq,txt in enumerate(elements):
+        dv.documentelement_set.create(
+            position = seq,
+            text = txt,
+        )
+        
+    # update version info in Document
+    doc.published = True
+    doc.date_published = dv.date_published
+    doc.latest_version = dv.version_string
+    doc.has_modification = False
+    doc.save()
+    
+    # redirect to referring view, or fallback to preview page
+    default_url = reverse('doccomment_draft_preview', kwargs={'id':doc.id})
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', default_url))

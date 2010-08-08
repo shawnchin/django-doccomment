@@ -12,9 +12,9 @@
     {% if draft.published %}
     <li>
         <strong>Last published:</strong> 
-        Version {{ draft.version_string }} 
+        Version {{ draft.latest_version }} 
         on {{ draft.date_published|date }}
-        (There were {{ draft.has_modification|yesno:",no" }} changes since then)
+        (There have been {{ draft.has_modification|yesno:"some,no" }} changes since then)
     </li>
     {% endif %}
 
@@ -23,7 +23,7 @@
     <li>
         <strong>Publish as:</strong>
         {% for ver in draft.next_version_choices %}
-            <a href=''>v{{ ver }}</a>{% if not forloop.last %}, {% endif %}
+            <a href='{% url doccomment_draft_publish draft.id ver %}'>v{{ ver }}</a>{% if not forloop.last %}, {% endif %}
         {% endfor %}
     </li>
     {% endifequal %}
