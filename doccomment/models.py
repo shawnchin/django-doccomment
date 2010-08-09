@@ -104,7 +104,8 @@ class DocumentElement(models.Model):
     def __unicode__(self):
         return self.text[:50]
         
-        
+
+# TODO: CommentStatus is not implemented yet!
 class CommentStatus(models.Model):
     """
     A model to extend the attributes of contrib.comments.models.Comment.

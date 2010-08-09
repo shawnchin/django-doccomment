@@ -4,14 +4,20 @@ from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.views.generic import list_detail
 from django.contrib.auth.decorators import user_passes_test
+from django.http import Http404
+from django.http import HttpResponse
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
 from django.core.exceptions import SuspiciousOperation
+from django.contrib.comments.models import Comment
+from django.utils import simplejson
+from django.conf import settings
 
 from models import Document
 from models import DocumentVersion
 from models import DocumentElement
 from forms import DocumentForm
+
 
 # Get class to use for checking user permissions
 from doccomment import get_permission_class
@@ -19,6 +25,36 @@ Permission = get_permission_class()
 # Get class for parsing author input to HTML
 from doccomment import get_parser_module
 Parser = get_parser_module()
+
+@user_passes_test(Permission.user_can_view_published)
+def ajax_get_comment_count(request, v_id):
+    version = get_object_or_404(DocumentVersion, pk=v_id)
+    
+    if not request.is_ajax() and not settings.DEBUG:
+        return HttpResponseForbidden('Are you lost?')
+        
+    # for each page element, get number of comment;
+    page_elem = [{} for i in xrange(version.elem_count)]
+    for de in version.documentelement_set.all():
+        elem = page_elem[de.position]
+        elem['id'] = de.position
+        elem['ccount'] = Comment.objects.for_model(de).count()
+        elem['url'] = "/dummy/for/now/%d" % (de.position,)
+    
+    # prepare output data
+    data = {
+        'version_id'   : version.id,
+        'elemCount'    : version.elem_count,
+        'pageElements' : page_elem,
+    }
+
+    if not request.is_ajax() and settings.DEBUG:
+        return HttpResponse(
+            "<pre>%s</pre>" % (simplejson.dumps(data, sort_keys=True, indent=4))
+        )
+    else:
+        return HttpResponse(simplejson.dumps(data), 'application/json')
+    
 
 @user_passes_test(Permission.user_can_view_published)
 def pub_list(request, template_name='doccomment/pub_list.html'):

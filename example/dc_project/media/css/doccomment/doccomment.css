@@ -1,0 +1,27 @@
+.doccomment-block {
+    margin : 0px !important;
+    padding : 2px 5px 1px 20px;
+}
+
+.doccomment-hover {
+    background-color : #F7F8E0;
+}
+
+.doccomment-cdiv {
+    background-image : url('img/comment-bubble.png');
+    background-repeat : no-repeat;
+    padding: 0px;
+}
+
+.doccomment-ccount {
+    display: block;
+    width : 25px;
+    text-align: center;
+    
+}
+.doccomment-ccount a {
+    font-size : 0.8em;
+    font-weight: bold;
+    color : #369;
+    text-decoration: none;
+}

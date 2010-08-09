@@ -5,6 +5,8 @@ TODO
   them under the app directory. User templatetags where possible.
     * Provide minified version of JS/CSS
 * Test. Test. Test.
+* Implement CommentStatus
+* Introduce caching where appropriate
 * Implement hide/delete of Documents and Versions
 * Use django-reversion for revision history / rollback / diffs
 * Generated HTML should use styles from single CSS file (isolate from parent site)

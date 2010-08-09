@@ -2,51 +2,19 @@
 
 {% block title %}{{ version.title }} {{ block.super }}{% endblock %}
 {% block head %}
-<script type='text/javascript'>
-    $(function(){
-        var elem_count = {{ version.elem_count }};
-        
-        for (i = 0; i < elem_count; i++) {
-            /* for each content block */
-            var content_div = $('#DE-'+i);
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/doccomment.js"></script>
+    <link href="{{ MEDIA_URL }}css/doccomment/doccomment.css" media="all" rel="stylesheet" type="text/css" />
+    <script type='text/javascript'>
+        $(function() {
 
-            /* create a div to display link and count for comments */
-            var width = 30;
-            var top   = content_div.offset().top;
-            var left  = content_div.offset().left - width;
-            var height= content_div.css('height');
-            /* display it relative to associated content */
-            var dt = '<div class="doccomment-cdiv" id="CB-'+i+'">N</div>'
-            var comment_div = $(dt).hide()
-                .css('position', 'absolute')
-                .css('top', top)
-                .css('left', left)
-                .css('width', width)
-                .css('height', height)
-                .css('background-color','#ddd')
-                .css('cursor', 'pointer')
-                .appendTo($("#content"));
-            
-            /* store reference to comment div in content */
-            content_div.data('cdiv', comment_div);
+            var ajax_url = '{% url doccomment_ajax_get_comment_count version.id %}';
+            doccomment.init();
+            doccomment.loadCommentCount(ajax_url);
 
-            /* display comment div on hover */
-            content_div.hover(function() {
-                $(this).data('cdiv').show();
-            }, function(){
-                $(this).data('cdiv').hide();
-            });
+        });
+    </script>
 
-            /* remain visible when hovered over */
-            comment_div.hover(function() {
-                $(this).show();
-            }, function(){
-                $(this).hide();
-            });
-        }
-
-    });
-</script>
 {% endblock %}
 {% block content %}
 
@@ -57,7 +25,9 @@
     <li><strong>Version:</strong> {{ version.version_string }}</li>
 </ul>
 <hr />
-{{ version.rendered|safe }}
+<div class='doccomment' id='doccomment'>
+    {{ version.rendered|safe }}
+</div>
 <hr />
 
 

@@ -42,4 +42,9 @@ urlpatterns = patterns('doccomment.views',
         view = 'draft_publish',
         name = 'doccomment_draft_publish',
     ),
+    
+    url(r'^ajax/get-comment-count/(?P<v_id>\d+)/$',
+        view = 'ajax_get_comment_count',
+        name = 'doccomment_ajax_get_comment_count',
+    ),
 )
