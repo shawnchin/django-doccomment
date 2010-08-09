@@ -58,3 +58,54 @@ body > #container { height: auto; min-height: 100%; }
 
 /* make sure content does not overflow behind footer */
 #content { padding-bottom: 3em; }
+
+/* ------- FORMS --------- */
+
+.form-row {
+    float:left;
+    padding:4px 0;
+    width:100%;
+}
+.form-row label {
+    color:#333333;
+    float:left;
+    font-size:1em;
+    line-height:2em;
+    padding-right:0.5em;
+    text-align:right;
+    width:10em;
+}
+
+input, textarea, select {
+    font-family:"Lucida Grande",Verdana,Arial,sans-serif;
+    font-size:11px;
+    font-weight:normal;
+    margin:2px 0;
+    padding:2px 3px;
+    vertical-align:middle;
+}
+
+input[type="text"],
+input[type="password"],
+textarea, select  {
+    border:1px solid #CCCCCC;
+}
+
+.submit-row {
+    clear:both;
+    padding:1em 0 0 12em;
+}
+
+
+/* ------- LOGIN -------- */
+
+#login-container { margin-top: 50px; }
+#login-form {
+    border: 1px solid #ccc;
+    background-color: #eee;
+    min-width: 300px;
+    width: 28em;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 15px;
+}

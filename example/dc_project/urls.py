@@ -16,10 +16,17 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
     
-    (r'^doc/', include('doccomment.urls')),
+    url(r'^accounts/login/$', 
+        view = 'django.contrib.auth.views.login',
+        name = 'auth_login',
+    ),
+    url(r'^accounts/logout/$', 
+        view = 'django.contrib.auth.views.logout', 
+        kwargs = {'next_page':'/'},
+        name = 'auth_logout',
+    ),
     
-    (r'^accounts/login/$', 'django.contrib.auth.views.login'),
-    (r'^accounts/logout/$', 'django.contrib.auth.views.logout'),
+    (r'^', include('doccomment.urls')),
 )
 
 # serve static files if running DEBUG mode

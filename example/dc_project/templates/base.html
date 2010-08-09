@@ -20,10 +20,10 @@
                 Welcome 
                 {% if user.is_authenticated %}
                     <strong>{{ user.username }}</strong>.
-                    [ <a href='/accounts/logout'>Log Out</a> ]
+                    [ <a href='{% url auth_logout %}'>Log Out</a> ]
                 {% else %}
                     <strong>stranger</strong>
-                    [ <a href='/accounts/login'>Log In</a> ]
+                    [ <a href='{% url auth_login %}'>Log In</a> ]
                 {% endif %}
             </div>
         </div>

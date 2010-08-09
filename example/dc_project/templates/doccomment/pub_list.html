@@ -1,4 +1,4 @@
-{% extends "doccomment/base.html" %}
+{% extends "base.html" %}
 
 {% block title %}Published Documents {{ block.super }}{% endblock %}
 
@@ -10,6 +10,8 @@
         <a href='{% url doccumment_pub_view_latest doc.id doc.slug %}'>{{ doc.title }}</a> 
         (by {{ doc.author|default:doc.author.username }})
     </li>
+{% empty %}
+-- there are no published documents --
 {% endfor %}
 </ul>
 
