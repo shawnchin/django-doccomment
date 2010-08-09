@@ -5,7 +5,7 @@ urlpatterns = patterns('doccomment.views',
 
     url(r'^$',
         view = 'pub_list',
-        name = 'doccumment_pub_list',
+        name = 'doccomment_pub_list',
     ),
     
     url(r'^(?P<id>\d+)/(?P<slug>[\w-]+)/$',

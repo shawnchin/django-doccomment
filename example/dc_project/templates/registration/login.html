@@ -25,7 +25,7 @@
         <div class='submit-row'>
             <input type="submit" value="Log in" />
         </div>
-        <input type='hidden' name='next' value='/' />
+        <input type='hidden' name='next' value='{{ next|default:"/" }}' />
     </form>
 </div>
 

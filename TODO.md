@@ -4,6 +4,7 @@ TODO
 * Clean up example code. Isolate doccomment specific JS/CSS/operations and place
   them under the app directory. User templatetags where possible.
     * Provide minified version of JS/CSS
+* Admin pages
 * Test. Test. Test.
 * Implement CommentStatus
 * Introduce caching where appropriate

@@ -87,4 +87,4 @@ INSTALLED_APPS = (
     'doccomment',
 )
 
-DOCCOMMENT_PERMISSION_MODULE = 'dc_project.permissions'
+#DOCCOMMENT_PERMISSION_MODULE = 'dc_project.permissions'

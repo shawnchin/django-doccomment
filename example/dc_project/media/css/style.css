@@ -91,6 +91,12 @@ textarea, select  {
     border:1px solid #CCCCCC;
 }
 
+.editor-form-row input { width: 550px; }
+.editor-form-row textarea {
+    width: 600px;
+    height: 300px;
+}
+
 .submit-row {
     clear:both;
     padding:1em 0 0 12em;

@@ -64,7 +64,7 @@ def pub_list(request, template_name='doccomment/pub_list.html'):
 
 # shortcut to pub_view with latest version. permission check on pub_view
 def pub_view_latest(request, id, slug):
-    doc = get_object_or_404(Document.objects.published())
+    doc = get_object_or_404(Document.objects.published(), pk=id)
     return pub_view(request, id, slug, doc.latest_version)
     
 @user_passes_test(Permission.user_can_view_published)
