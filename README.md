@@ -1,3 +1,5 @@
+**THIS APP IS STILL INCOMPLETE**. See TODO.md
+
 # Example usage
 
 An example project that uses doccomment is included in examples/dc_project. 
@@ -6,7 +8,7 @@ To try it out, run:
     $ cd examples/dc_project
     $ export PYTHONPATH='../..'
     $ ./manage.py syncdb
-    $ ./manage.py loaddata ????
+    $ #./manage.py loaddata ???? # Fixture not yet ready
     $ ./manage.py runserver
 
 # Dependencies
@@ -19,7 +21,7 @@ We also use the fabulous BeautifulSoup library (included in our distribution)
 
 # Settings
 
-(we need to talk about:)
+(we need to describe the usage of:)
 
 DOCCOMMENT_PARSER_MODULE
 DOCCOMMENT_PERMISSION_MODULE

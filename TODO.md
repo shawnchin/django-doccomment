@@ -1,27 +1,22 @@
 TODO
 ====
 
-* Rip out and clean up code from existing implementation
-* Restructure models to improve performance
-    * Store Markdown and HTML in Version model
-    * Associate Comment to Version (with elem_id) instead of PageElement
-    * Use PageElement only for context reference in comment page
+* Clean up example code. Isolate doccomment specific JS/CSS/operations and place
+  them under the app directory. User templatetags where possible.
+    * Provide minified version of JS/CSS
 * Test. Test. Test.
+* Implement hide/delete of Documents and Versions
+* Use django-reversion for revision history / rollback / diffs
 * Generated HTML should use styles from single CSS file (isolate from parent site)
 * Use MarkItUp and ShowDown in document editor to allow real-time client-side 
   preview of document
-* Consider allowing HTML in Markdown (if BeautifulSoup can clean up malformed
-  tags - prevent document from mucking up parent page layout)
 * Allow users to "follow" specific documents (email notification when new 
   versions published)
-* Redesign comments - allow multiple backends so we don't override models of
-  contrib.comments and break other apps that may also be using Comments.
-* Give option for anonymous comments.
-* Implement template tags to make it easier for users to integrate 
-  doccomment in their own project
-* Comments on document view should be imported separetely (JSON via AJAX)
-* doccomment specific jquery should be compiled as doccomment.js
-* Implement diffs between versions
+
+
+GOLD PLATING?
+=============
+
 * Implement Tasks for each document, so authors can set up lists of changes
   to be made.
 * Link comment acknolegement with "pending tasks". Workflow:
