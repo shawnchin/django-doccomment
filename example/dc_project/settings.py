@@ -88,3 +88,4 @@ INSTALLED_APPS = (
 )
 
 #DOCCOMMENT_PERMISSION_MODULE = 'dc_project.permissions'
+DOCCOMMENT_MARKDOWN_SAFEMODE = False # allow HTML input

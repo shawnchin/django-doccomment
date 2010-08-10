@@ -20,7 +20,7 @@
 
 <h1>{{ version.title }}</h1>
 <ul>
-    <li><strong>Author:</strong> {{ version.author|default:version.author.username }}</li>
+    <li><strong>Author:</strong> {{ version.author.get_full_name|default:version.author.username }}</li>
     <li><strong>Published:</strong> {{ version.date_published|date }}</li>
     <li><strong>Version:</strong> {{ version.version_string }}</li>
 </ul>
