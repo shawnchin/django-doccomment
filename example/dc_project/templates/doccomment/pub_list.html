@@ -8,7 +8,7 @@
 {% for doc in doc_list %}
     <li>
         <a href='{% url doccomment_pub_view_latest doc.id doc.slug %}'>{{ doc.title }}</a> 
-        (by {{ doc.author|default:doc.author.username }})
+        (by {{ doc.author.get_full_name|default:doc.author.username }})
     </li>
 {% empty %}
     <li> --- There are no published documents --- </li>
