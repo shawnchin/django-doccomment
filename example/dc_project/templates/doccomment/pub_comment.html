@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load comments %}
+{% block title %}Comments for {{ version.title }} {{ block.super }}{% endblock %}
+{% block content %}
+
+<h1>Comments for <a href='{{ origin }}'>{{ version.title }} (v{{ version.version_string }})</a></h1>
+<div class='grid_8 clearfix'><div id='content-left'>
+
+<h5>Comment Form</h5>
+{% if user.is_authenticated %}
+{% get_comment_form for element as form %}
+<form action='{% comment_form_target %}' method='post'>
+    <div class="comment-form-row">
+        {{ form.comment }}
+    </div>
+
+    <div class="submit-row">
+        <input type="submit" name="submit" class="submit-post" value="Post your comment" id="submit" />
+    </div>
+
+    {% for field in form.hidden_fields %}{{ field }}{% endfor %}
+    <!-- input type="hidden" name="next" value="{{ origin }}" -->
+</form>
+
+{% else %}
+You need to <a href='{% url auth_login %}'>log in</a> to post a comment.
+{% endif %}
+
+<br /><br />
+<h5>Element preview</h5>
+<div class='doccomment preview-box'>
+    {{ element.text|safe }}
+</div></div>
+
+</div>
+<div class='grid_8 clearfix'><div id='content-right'>
+
+<h5>Comments</h5>
+{% get_comment_list for element as comment_list %}
+{% for comment in comment_list %}
+    <p>
+        <em>
+            <strong>{{ comment.user_name }}</strong> said 
+            on {{ comment.submit_date|date }} 
+            at {{ comment.submit_date|time }} 
+            -- 
+        </em> 
+        {{ comment.comment }}
+    </p>
+{% empty %}
+--- there are not comments yet ---
+{% endfor %}
+
+</div></div>
+{% endblock %}1

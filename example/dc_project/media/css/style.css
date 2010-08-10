@@ -12,7 +12,7 @@ body > #container { height: auto; min-height: 100%; }
     color: #ffc;
 }
 #header a:link, #header a:visited {
-    color : white;
+    color: white;
     text-decoration: none;
 }
 #header a:hover {
@@ -62,33 +62,33 @@ body > #container { height: auto; min-height: 100%; }
 /* ------- FORMS --------- */
 
 .form-row {
-    float:left;
-    padding:4px 0;
-    width:100%;
+    float: left;
+    padding: 4px 0;
+    width: 100%;
 }
 .form-row label {
-    color:#333333;
-    float:left;
-    font-size:1em;
-    line-height:2em;
-    padding-right:0.5em;
-    text-align:right;
-    width:10em;
+    color: #333333;
+    float: left;
+    font-size: 1em;
+    line-height: 2em;
+    padding-right: 0.5em;
+    text-align: right;
+    width: 10em;
 }
 
 input, textarea, select {
-    font-family:"Lucida Grande",Verdana,Arial,sans-serif;
-    font-size:11px;
-    font-weight:normal;
-    margin:2px 0;
-    padding:2px 3px;
-    vertical-align:middle;
+    font-family: "Lucida Grande",Verdana,Arial,sans-serif;
+    font-size: 11px;
+    font-weight: normal;
+    margin: 2px 0;
+    padding: 2px 3px;
+    vertical-align: middle;
 }
 
 input[type="text"],
 input[type="password"],
 textarea, select  {
-    border:1px solid #CCCCCC;
+    border: 1px solid #CCCCCC;
 }
 
 .editor-form-row input { width: 550px; }
@@ -96,10 +96,13 @@ textarea, select  {
     width: 600px;
     height: 300px;
 }
-
+.comment-form-row textarea {
+    width: 450px;
+    height: 150px;
+}
 .submit-row {
-    clear:both;
-    padding:1em 0 0 12em;
+    clear: both;
+    padding: 1em 0 0 12em;
 }
 
 
@@ -114,4 +117,12 @@ textarea, select  {
     margin-left: auto;
     margin-right: auto;
     padding: 15px;
+}
+
+/* ------- misc ------ */
+
+.preview-box {
+    border: 1px solid #ccc;
+    padding: 5px;
+    background-color: #eee;
 }

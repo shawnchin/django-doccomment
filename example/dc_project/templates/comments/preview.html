@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load comments %}
+{% block title %}Comment {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class='grid_10 prefix_3'>
+
+    <h3 class='subhead'>OOpps.. there's a problem with you submission</h3>
+
+    <form action='{% comment_form_target %}' method='post'>
+        <div class="form-row comment-form-row">
+            {{ form.comment.errors }}
+            {{ form.comment }}
+        </div>
+
+        <div class="submit-row">
+            <input type="submit" name="submit" class="submit-post" value="Try submitting again" id="submit" />
+        </div>
+
+        {% for field in form.hidden_fields %}{{ field }}{% endfor %}
+        {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
+
+    </form>
+</div>
+{% endblock %}

@@ -29,7 +29,9 @@ Parser = get_parser_module()
 @user_passes_test(Permission.user_can_view_published)
 def ajax_get_comment_count(request, v_id):
     version = get_object_or_404(DocumentVersion, pk=v_id)
+    document = version.document
     
+    # XHR calls only, unless in DEBUG mode
     if not request.is_ajax() and not settings.DEBUG:
         return HttpResponseForbidden('Are you lost?')
         
@@ -38,8 +40,14 @@ def ajax_get_comment_count(request, v_id):
     for de in version.documentelement_set.all():
         elem = page_elem[de.position]
         elem['id'] = de.position
+        # TODO: handle comment count under DocumentElementManager (+cache)
         elem['ccount'] = Comment.objects.for_model(de).count()
-        elem['url'] = "/dummy/for/now/%d" % (de.position,)
+        elem['url'] = reverse('doccomment_pub_comment', kwargs={
+            'id'   : document.id,
+            'slug' : document.slug,
+            'ver'  : version.version_string,
+            'pos' : de.position,
+        })
     
     # prepare output data
     data = {
@@ -48,10 +56,9 @@ def ajax_get_comment_count(request, v_id):
         'pageElements' : page_elem,
     }
 
+    # print out JSON for non-XHR calls in DEBUG mode.
     if not request.is_ajax() and settings.DEBUG:
-        return HttpResponse(
-            "<pre>%s</pre>" % (simplejson.dumps(data, sort_keys=True, indent=4))
-        )
+        return HttpResponse("<pre>%s</pre>" % (simplejson.dumps(data, sort_keys=True, indent=4)))
     else:
         return HttpResponse(simplejson.dumps(data), 'application/json')
     
@@ -77,7 +84,21 @@ def pub_view(request, id, slug, ver, template_name='doccomment/pub_view.html'):
     return render_to_response(template_name, {
         'version' : dv,
     }, context_instance = RequestContext(request))
-    
+
+@user_passes_test(Permission.user_can_view_published)
+def pub_view_comment(request, id, slug, ver, pos, template_name='doccomment/pub_comment.html'):
+    version = get_object_or_404(DocumentVersion, 
+        document = id,
+        version_string = ver,
+    )
+    element =  get_object_or_404(version.documentelement_set, position=pos)
+    url = reverse('doccomment_pub_view', kwargs={'id':id, 'slug':slug, 'ver':ver})
+    return render_to_response(template_name, {
+        'element' : element,
+        'version' : version,
+        'origin'  : "%s#DE-%s" % (url, pos),
+    }, context_instance = RequestContext(request))
+
 @user_passes_test(Permission.user_can_view_draft)
 def draft_list(request, template_name='doccomment/draft_list.html'):
     return render_to_response(template_name, {

@@ -2,7 +2,8 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('doccomment.views',
 
-
+    # ----- Public pages -----
+    
     url(r'^$',
         view = 'pub_list',
         name = 'doccomment_pub_list',
@@ -10,13 +11,20 @@ urlpatterns = patterns('doccomment.views',
     
     url(r'^(?P<id>\d+)/(?P<slug>[\w-]+)/$',
         view = 'pub_view_latest',
-        name = 'doccumment_pub_view_latest',
+        name = 'doccomment_pub_view_latest',
     ),
     
     url(r'^(?P<id>\d+)/(?P<slug>[\w-]+)/(?P<ver>\d+\.\d+\.\d+)/$',
         view = 'pub_view',
-        name = 'doccumment_pub_view',
+        name = 'doccomment_pub_view',
     ),
+
+    url(r'^(?P<id>\d+)/(?P<slug>[\w-]+)/(?P<ver>\d+\.\d+\.\d+)/c(?P<pos>\d+)/$',
+        view = 'pub_view_comment',
+        name = 'doccomment_pub_comment',
+    ),
+    
+    # ----- Authors' pages -----
     
     url(r'^draft/list$',
         view = 'draft_list',
@@ -42,6 +50,8 @@ urlpatterns = patterns('doccomment.views',
         view = 'draft_publish',
         name = 'doccomment_draft_publish',
     ),
+    
+    # ----- AJAX only -----
     
     url(r'^ajax/get-comment-count/(?P<v_id>\d+)/$',
         view = 'ajax_get_comment_count',

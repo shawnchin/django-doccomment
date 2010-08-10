@@ -21,11 +21,12 @@
         {{ form.title }}
     </div>
 
+    
     <div class='editor-form-row'>
         {{ form.body.errors }}
         {{ form.body }}
     </div>
-
+    <em>Note: You can use <a href='http://daringfireball.net/projects/markdown/'>markdown</a> to format your text.</em>
     <div class='submit-row'>
         <input type="submit" name='save' value="Save Changes" />
         <input type="submit" name='save-and-continue' value="Save and Continue Editing" />

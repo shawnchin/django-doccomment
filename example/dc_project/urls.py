@@ -16,6 +16,7 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
     
+    # assign names to login/logout views
     url(r'^accounts/login/$', 
         view = 'django.contrib.auth.views.login',
         name = 'auth_login',
@@ -26,6 +27,10 @@ urlpatterns = patterns('',
         name = 'auth_logout',
     ),
     
+    # django.contrib.comments
+    (r'^comments/', include('django.contrib.comments.urls')),
+
+    # redirect all other urls to doccomment
     (r'^', include('doccomment.urls')),
 )
 
