@@ -108,12 +108,16 @@ var doccomment = function($) {
 
     /* load comment count and URL using AJAX call */
     var do_loadCommentCount = function(ajax_url) {
-        $.getJSON(ajax_url, function(data) {
+        $.ajax({
+            url      : ajax_url, 
+            dataType : 'json',
+            cache    : false,
+            success  : function(data) {
+                for (i = 0; i < data.elemCount; i++) {
+                    updateCommentCount(data.pageElements[i]);
+                }
+            },
             /* TODO: handle ajax call errors */
-
-            for (i = 0; i < data.elemCount; i++) {
-                updateCommentCount(data.pageElements[i]);
-            }
         });
     };
 
