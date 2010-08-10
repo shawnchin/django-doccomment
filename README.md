@@ -1,4 +1,6 @@
-**THIS APP IS STILL INCOMPLETE**. See TODO.md
+**THIS APP IS A WORK IN PROGRESS**. 
+
+See TODO.md
 
 # Example usage
 
@@ -27,13 +29,11 @@ DOCCOMMENT_PARSER_MODULE
 DOCCOMMENT_PERMISSION_MODULE
 DOCCOMMENT_MARKDOWN_EXTENSIONS
 DOCCOMMENT_MARKDOWN_SAFEMODE
-DOCCOMMENT_DIV_ID_PREFIX
-
 
 # Disclaimer
 
-I'm relatively new to Django, so I'm sure there will be lots of room for
+I'm relatively new to Django, so I'm sure there are lots of room for
 improvement. 
 
-Feel free to get in touch if you have comments, suggestions, patches, or
+Feel free to get in touch if you have any comments, suggestions, patches, or
 would like to get involved with the project.
