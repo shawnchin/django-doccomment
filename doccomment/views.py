@@ -61,7 +61,15 @@ def ajax_get_comment_count(request, v_id):
         return HttpResponse("<pre>%s</pre>" % (simplejson.dumps(data, sort_keys=True, indent=4)))
     else:
         return HttpResponse(simplejson.dumps(data), 'application/json')
-    
+
+@user_passes_test(Permission.user_is_author)
+def ajax_get_parser_preview(request):
+    if not request.is_ajax() and not settings.DEBUG:
+        return HttpResponseForbidden('Are you lost?')
+    rendered = 'Johnny: "Need input!"'
+    if request.POST:
+        processed = Parser.parse(request.POST.get('data'))
+    return HttpResponse(processed)
 
 @user_passes_test(Permission.user_can_view_published)
 def pub_list(request, template_name='doccomment/pub_list.html'):

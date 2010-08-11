@@ -16,8 +16,6 @@ TODO
 * Use django-reversion for revision history / rollback / diffs
 * Generated HTML should use styles from single CSS file (isolate from parent site)
 * Generate Table Of Content based on <h?> tags in document
-* Use MarkItUp and ShowDown in document editor to allow real-time client-side 
-  preview of document (in demo project)
 * Reconsider how users can override Permission and Parser modules. Curent method
   feels too much like a hack
 

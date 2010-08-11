@@ -57,4 +57,8 @@ urlpatterns = patterns('doccomment.views',
         view = 'ajax_get_comment_count',
         name = 'doccomment_ajax_get_comment_count',
     ),
+    url(r'^ajax/get-parser-preview/$',
+        view = 'ajax_get_parser_preview',
+        name = 'doccomment_ajax_get_parser_preview',
+    ),
 )

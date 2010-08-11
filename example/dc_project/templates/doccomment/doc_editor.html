@@ -2,6 +2,20 @@
 
 {% block title %}Doc Editor {{ block.super }}{% endblock %}
 
+{% block head %}
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}markitup/jquery.markitup.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}markitup/sets/markdown/set.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}markitup/skins/markitup/style.css" />
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}markitup/sets/markdown/style.css" />
+    <script>
+        $(function() {
+            mySettings.previewParserPath = '{% url doccomment_ajax_get_parser_preview %}';
+            $('#editor-form').find('.markThisUp > :input[type=textarea]').markItUp(mySettings);
+        });
+    </script>
+{% endblock %}
+
 {% block content %}
 
 <h1>
@@ -22,7 +36,7 @@
     </div>
 
     
-    <div class='editor-form-row'>
+    <div class='markThisUp'>
         {{ form.body.errors }}
         {{ form.body }}
     </div>

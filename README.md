@@ -5,7 +5,7 @@ See TODO.md
 # Example usage
 
 An example project that uses doccomment is included in examples/dc_project. 
-To try it out, run:
+To try it out, make sure you have [Markdown in Python][] installed (see Dependencies), then run:
 
     $ cd examples/dc_project
     $ export PYTHONPATH='../..'
@@ -26,9 +26,17 @@ The permission model can be overridden. Documentation to come.
 By default, we use the markdown filter in django.contrib.markup. This
 requires:
 
-* python markdown <http://www.freewisdom.org/projects/python-markdown>
+* Markdown in Python <http://www.freewisdom.org/projects/python-markdown>
 
-We also use the fabulous BeautifulSoup library (included in our distribution)
+## External libraries included in the distribution
+
+We use the fabulous [BeautifulSoup][] library for sanitising and parsing HTML, 
+and [MarkItUp!][] for the editor in the demo app. The source for these packages
+are included in the distribution for convenience.
+
+ [BeautifulSoup]: http://www.crummy.com/software/BeautifulSoup/
+ [MarkItUp!]: http://markitup.jaysalvat.com/home/
+ [Markdown in Python]: http://www.freewisdom.org/projects/python-markdown
 
 # Settings
 
